@@ -1,7 +1,7 @@
 const express = require('express');
-const Productos = require("./Productos")
+const Contenedor = require("./Contenedor")
 
-const productos = new Productos();
+const productos = new Contenedor("productos.json");
 const router = express.Router();
 
 router.get("/", (_req,res) => {
@@ -9,7 +9,7 @@ router.get("/", (_req,res) => {
 })
 
 router.post("/products", (req,res) => {
-    productos.crear(req.body);
+    productos.save(req.body);
     res.redirect('/');
 })
 

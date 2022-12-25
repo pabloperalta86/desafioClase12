@@ -1,0 +1,26 @@
+[
+  {
+    "email": "dddd@55.com",
+    "message": "hola",
+    "date": "25/12/2022, 20:32:11",
+    "id": 1
+  },
+  {
+    "email": "pablo.cavs.86@gmail.com",
+    "message": "hola",
+    "date": "25/12/2022, 20:32:31",
+    "id": 2
+  },
+  {
+    "email": "dddd@55.com",
+    "message": "como va",
+    "date": "25/12/2022, 20:32:38",
+    "id": 3
+  },
+  {
+    "email": "pablo.cavs.86@gmail.com",
+    "message": "todo bien y vos?",
+    "date": "25/12/2022, 20:32:43",
+    "id": 4
+  }
+]

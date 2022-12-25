@@ -5,20 +5,18 @@ const app = express();
 
 const { Server } = require('socket.io');
 const { engine } = require('express-handlebars');
-const Productos = require('./Productos.js')
+const Contenedor = require('./Contenedor.js')
 
 const server = http.createServer(app);
 const io = new Server(server);
 
-//const contenedor = new Contenedor("productos.json");
-//const chat = new Contenedor("chat.json")
-const product = new Productos()
+const product = new Contenedor("productos.json");
+const chat = new Contenedor("chat.json")
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
 
-const chat = [];
 app.use("/", router);
 
 app.set('views', './views');
@@ -28,28 +26,27 @@ app.engine('hbs', engine({
     extname: '.hbs',
     defaultLayout: 'index.hbs',
     layoutsDir: './views/layouts',
-    partialsDir: './views/partials'
 }))
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log('🟢 Usuario conectado')
     
-    const productos = product.getAll();
+    const productos = await product.getAll();
     socket.emit('bienvenidoLista', productos )
     
-    const mensajes = chat;
+    const mensajes = await chat.getAll();
     socket.emit('listaMensajesBienvenida', mensajes)
     
-    socket.on('nuevoMensaje', (data) => {
-        chat.push(data);
-        io.sockets.emit('listaMensajesActualizada', chat)
+    socket.on('nuevoMensaje', async (data) => {
+        await chat.save(data);
+        io.sockets.emit('listaMensajesActualizada', await chat.getAll())
     })
 
-    socket.on('productoAgregado', (data) => {
+    socket.on('productoAgregado', async (data) => {
         console.log('Alguien presionó el click')
-        product.crear(data);
+        await product.save(data);
         
-        const productos = product.getAll();
+        const productos = await product.getAll();
         io.sockets.emit('listaActualizada', productos);
     })
     

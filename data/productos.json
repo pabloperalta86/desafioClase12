@@ -1,0 +1,14 @@
+[
+  {
+    "title": "banana",
+    "price": "200",
+    "thumbnail": "https://frutas/img",
+    "id": 1
+  },
+  {
+    "title": "pera",
+    "price": "250",
+    "thumbnail": "https://frutas/img",
+    "id": 2
+  }
+]

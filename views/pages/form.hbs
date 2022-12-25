@@ -93,7 +93,6 @@
                         "message" : mensaje,
                         "date" : new Date().toLocaleString()
                     })
-                    document.getElementById('input-email').value = "";
                     document.getElementById('input-mensaje').value = "";
                 }
                 
@@ -121,7 +120,7 @@
                 data.forEach( (mensaje) => {
                     $('#historial-mensajes').append(
                     `
-                    <small style="display:block"> - <strong style="color:blue">${mensaje.email}</strong> <openingtag style="color:maroon">${mensaje.date}</closingtag>: <i style= "color:green">${mensaje.message}</i> </small>
+                    <small style="display:block"> - <strong style="color:blue">${mensaje.email}</strong> <openingtag style="color:maroon">[${mensaje.date}]</closingtag>: <i style= "color:green">${mensaje.message}</i> </small>
                     `
                     )
                 })
@@ -133,7 +132,7 @@
                 data.forEach( (mensaje) => {
                     $('#historial-mensajes').append(
                     `
-                    <small style="display:block"> - <strong style="color:blue">${mensaje.email}</strong> <openingtag style="color:maroon">${mensaje.date}</closingtag>: <i style= "color:green">${mensaje.message}</i> </small>
+                    <small style="display:block"> - <strong style="color:blue">${mensaje.email}</strong> <openingtag style="color:maroon">[${mensaje.date}]</closingtag>: <i style= "color:green">${mensaje.message}</i> </small>
                     `
                     )
                 })
