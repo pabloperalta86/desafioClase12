@@ -1,3 +1,15 @@
+const ContenedorSql = require('./ContenedorSql.js');
+const { mysql, sqlite3 } = require('../config/configSQL.js');
+const product = new ContenedorSql(mysql);
+const chat = new ContenedorSql(sqlite3);
+
+crearTablas = async () => {
+    await product.crearTabla();
+    await chat.crearTablaMessage();
+}
+
+crearTablas();
+
 const express = require('express');
 const http = require('http');
 const router = require('./router');
@@ -10,8 +22,8 @@ const Contenedor = require('./Contenedor.js')
 const server = http.createServer(app);
 const io = new Server(server);
 
-const product = new Contenedor("productos.json");
-const chat = new Contenedor("chat.json")
+//const product = new Contenedor("productos.json");
+//const chat = new Contenedor("chat.json")
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -31,22 +43,22 @@ app.engine('hbs', engine({
 io.on('connection', async (socket) => {
     console.log('🟢 Usuario conectado')
     
-    const productos = await product.getAll();
+    const productos = await product.getAllProducts();
     socket.emit('bienvenidoLista', productos )
     
-    const mensajes = await chat.getAll();
+    const mensajes = await chat.getAllMessages();
     socket.emit('listaMensajesBienvenida', mensajes)
     
     socket.on('nuevoMensaje', async (data) => {
-        await chat.save(data);
-        io.sockets.emit('listaMensajesActualizada', await chat.getAll())
+        await chat.saveMessage(data);
+        io.sockets.emit('listaMensajesActualizada', await chat.getAllMessages())
     })
 
     socket.on('productoAgregado', async (data) => {
         console.log('Alguien presionó el click')
         await product.save(data);
         
-        const productos = await product.getAll();
+        const productos = await product.getAllProducts();
         io.sockets.emit('listaActualizada', productos);
     })
     

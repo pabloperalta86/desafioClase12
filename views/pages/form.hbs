@@ -100,7 +100,7 @@
             
             btn.addEventListener('click', (evt) => {
                 const title = inputTitle.value;
-                const price = inputPrice.value;
+                const price = parseFloat(inputPrice.value);
                 const img = inputImg.value;
                 if (title !== '' && price !== '' && img !== '') {
                     socket.emit('productoAgregado',{
