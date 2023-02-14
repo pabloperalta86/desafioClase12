@@ -2,6 +2,7 @@ const ContenedorSql = require('./ContenedorSql.js');
 const { mysql, sqlite3 } = require('../config/configSQL.js');
 const product = new ContenedorSql(mysql);
 const chat = new ContenedorSql(sqlite3);
+const axios = require("axios"); 
 
 crearTablas = async () => {
     await product.crearTabla();
@@ -43,8 +44,16 @@ app.engine('hbs', engine({
 io.on('connection', async (socket) => {
     console.log('🟢 Usuario conectado')
     
-    const productos = await product.getAllProducts();
-    socket.emit('bienvenidoLista', productos )
+    //const productos = await product.getAllProducts();
+    //socket.emit('bienvenidoLista', productos )
+    
+    await axios.get('http://localhost:8080/productos-test')
+    .then(function (response) {
+        socket.emit('bienvenidoLista', response.data)
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
     
     const mensajes = await chat.getAllMessages();
     socket.emit('listaMensajesBienvenida', mensajes)
