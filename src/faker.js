@@ -7,7 +7,7 @@ const productosRandom = () => {
             id:`${i+1}`,
             title: faker.commerce.product(),
             price: faker.finance.amount(),
-            thumbnail: faker.internet.avatar()
+            thumbnail: faker.image.people(50,50,true)
         })
     }
     return(productos)

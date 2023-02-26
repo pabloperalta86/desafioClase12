@@ -1,10 +1,10 @@
-<h2>Agregar Producto</h2>
+{{!-- <h2>Productos</h2> --}}
 
 <div class="row g-3">
 
-    <form class="row g-3" action="/products" method="POST"> 
+    {{!-- <form class="row g-3" action="/products" method="POST">  --}}
     
-        <div class="col-sm-3">
+        {{!-- <div class="col-sm-3">
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="basic-addon1">Título</span>
                 <input id="input-title" type="text" autocomplete="off" name="title" required class="form-control" placeholder="Título del producto" aria-label="Título" aria-describedby="basic-addon1">
@@ -23,13 +23,14 @@
                 <span class="input-group-text" id="basic-addon3">Thumbnail</span>
                 <input id="input-img" type="text" name="thumbnail" required class="form-control" placeholder="Thumbnail (URL)" aria-label="Thumbnail" aria-describedby="basic-addon1">
             </div>
-        </div>
+        </div> --}}
 
-        <div class="col-sm-2">
+        <div class="col-sm-12">
             <div class="d-grid gap-2">
-                <button id="btn-submit" class="btn btn-primary btn-sm" type="submit">Agregar a la lista</button>
+                <button id="btn-submit" class="btn btn-primary btn-sm center-block" type="">Generar Productos Random</button>
             </div>
         </div>
+    <form class="row g-3" action="/products" method="POST"> 
 
         <hr>
         
@@ -97,23 +98,24 @@
                 }
                 
             })
-            
+
             btn.addEventListener('click', (evt) => {
-                const title = inputTitle.value;
-                const price = parseFloat(inputPrice.value);
-                const img = inputImg.value;
-                if (title !== '' && price !== '' && img !== '') {
-                    socket.emit('productoAgregado',{
-                        "title": title,
-                        "price": price,
-                        "thumbnail": img
-                    })
-                    inputTitle.value = "";
-                    inputPrice.value = "";
-                    inputImg.value = "";
-                }
+                console.log("zaraza");
+                $('#table-body').empty();
+                fetch('http://localhost:8080/productos-test')
+                    .then(response => response.json())
+                    .then(data => data.forEach( (element) => {
+                            $('#table-body').append(`
+                            <tr>
+                                <td>${element.id}</td>
+                                <td>${element.title}</td>
+                                <td>${element.price}</td>
+                                <td><img src="${element.thumbnail}" width=50px></td>
+                            </tr>
+                        `)
+                    }));
             })
-            
+
             socket.on('listaMensajesActualizada', (data) => {
                 console.log(data);
                 $('#historial-mensajes').empty();
@@ -148,7 +150,7 @@
                         <td>${element.id}</td>
                         <td>${element.title}</td>
                         <td>${element.price}</td>
-                        <td>${element.thumbnail}</td>
+                        <td><img src="${element.thumbnail}" width=50px></td>
                     </tr>
                     `
                     )
@@ -164,7 +166,7 @@
                         <td>${element.id}</td>
                         <td>${element.title}</td>
                         <td>${element.price}</td>
-                        <td>${element.thumbnail}</td>
+                        <td><img src="${element.thumbnail}" width=50px></td>
                     </tr>
                     `
                     )
